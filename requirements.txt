@@ -1,0 +1,5 @@
+streamlit
+flask-sqlalchemy
+werkzeug
+pymysql
+pandas
