@@ -1,4 +1,6 @@
+import sys
 import os
+import streamlit as st
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -13,7 +15,7 @@ db = SQLAlchemy(app)
 
 # --- 1. MEMASTIKAN PATH DIKENAL OLEH PYTHON ---
 # Langkah wajib agar modul 'models' dapat diimpor tanpa masalah dari folder manapun
-current_dir = os.path.dirname(os.path.abspath(__file__))
+current_dir = os.path.abspath(os.path.dirname(__file__))
 if current_dir not in sys.path:
     sys.path.append(current_dir)
 
