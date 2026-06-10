@@ -5,21 +5,17 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-
-# This forces the database file to be created inside your exact app directory
-basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'warehouse.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(current_dir, 'warehouse.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db = SQLAlchemy(app)
 
-# --- 1. MEMASTIKAN PATH DIKENAL OLEH PYTHON ---
-# Langkah wajib agar modul 'models' dapat diimpor tanpa masalah dari folder manapun
+with app.app_context():
+    db.create_all()
+
 current_dir = os.path.abspath(os.path.dirname(__file__))
 if current_dir not in sys.path:
     sys.path.append(current_dir)
 
-# Impor library pihak ketiga dan modul database lokal
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import app, db, User, Order, Customer, Vehicle
 
