@@ -1,14 +1,25 @@
-import sys
 import os
+import sys
 import streamlit as st
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+# 1. Definisikan variabel current_dir terlebih dahulu
+current_dir = os.path.abspath(os.path.dirname(__file__))
+
+# 2. Masukkan current_dir ke dalam sys.path (jika diperlukan)
+if current_dir not in sys.path:
+    sys.path.append(current_dir)
+
 app = Flask(__name__)
+
+# 3. Sekarang current_dir aman untuk digunakan di sini
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(current_dir, 'warehouse.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
+# 4. Bungkus dengan app_context agar tidak error saat deploy
 with app.app_context():
     db.create_all()
 
