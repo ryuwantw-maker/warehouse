@@ -1,6 +1,15 @@
-import streamlit as st
-import sys
 import os
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+
+# This forces the database file to be created inside your exact app directory
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'warehouse.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 
 # --- 1. MEMASTIKAN PATH DIKENAL OLEH PYTHON ---
 # Langkah wajib agar modul 'models' dapat diimpor tanpa masalah dari folder manapun
